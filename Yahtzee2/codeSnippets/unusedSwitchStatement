@@ -1,0 +1,105 @@
+ //Show dice up top
+  // switch (diceRoll.dice1) {
+  //   case (diceRoll.dice1 = 1):
+  //     document.getElementById("1").className = "fas fa-dice-one";
+  //     break;
+  //   case (diceRoll.dice1 = 2):
+  //     document.getElementById("1").className = "fas fa-dice-two";
+  //     break;
+  //   case (diceRoll.dice1 = 3):
+  //     document.getElementById("1").className = "fas fa-dice-three";
+  //     break;
+  //   case (diceRoll.dice1 = 4):
+  //     document.getElementById("1").className = "fas fa-dice-four";
+  //     break;
+  //   case (diceRoll.dice1 = 5):
+  //     document.getElementById("1").className = "fas fa-dice-five";
+  //     break;
+  //   case (diceRoll.dice1 = 6):
+  //     document.getElementById("1").className = "fas fa-dice-six";
+  //     break;
+  // }
+
+  // switch (diceRoll.dice2) {
+  //   case (diceRoll.dice2 = 1):
+  //     document.getElementById("2").className = "fas fa-dice-one";
+  //     break;
+  //   case (diceRoll.dice2 = 2):
+  //     document.getElementById("2").className = "fas fa-dice-two";
+  //     break;
+  //   case (diceRoll.dice2 = 3):
+  //     document.getElementById("2").className = "fas fa-dice-three";
+  //     break;
+  //   case (diceRoll.dice2 = 4):
+  //     document.getElementById("2").className = "fas fa-dice-four";
+  //     break;
+  //   case (diceRoll.dice2 = 5):
+  //     document.getElementById("2").className = "fas fa-dice-five";
+  //     break;
+  //   case (diceRoll.dice2 = 6):
+  //     document.getElementById("2").className = "fas fa-dice-six";
+  //     break;
+  // }
+
+  // switch (diceRoll.dice3) {
+  //   case (diceRoll.dice3 = 1):
+  //     document.getElementById("3").className = "fas fa-dice-one";
+  //     break;
+  //   case (diceRoll.dice3 = 2):
+  //     document.getElementById("3").className = "fas fa-dice-two";
+  //     break;
+  //   case (diceRoll.dice3 = 3):
+  //     document.getElementById("3").className = "fas fa-dice-three";
+  //     break;
+  //   case (diceRoll.dice3 = 4):
+  //     document.getElementById("3").className = "fas fa-dice-four";
+  //     break;
+  //   case (diceRoll.dice3 = 5):
+  //     document.getElementById("3").className = "fas fa-dice-five";
+  //     break;
+  //   case (diceRoll.dice3 = 6):
+  //     document.getElementById("3").className = "fas fa-dice-six";
+  //     break;
+  // }
+
+  // switch (diceRoll.dice4) {
+  //   case (diceRoll.dice4 = 1):
+  //     document.getElementById("4").className = "fas fa-dice-one";
+  //     break;
+  //   case (diceRoll.dice4 = 2):
+  //     document.getElementById("4").className = "fas fa-dice-two";
+  //     break;
+  //   case (diceRoll.dice4 = 3):
+  //     document.getElementById("4").className = "fas fa-dice-three";
+  //     break;
+  //   case (diceRoll.dice4 = 4):
+  //     document.getElementById("4").className = "fas fa-dice-four";
+  //     break;
+  //   case (diceRoll.dice4 = 5):
+  //     document.getElementById("4").className = "fas fa-dice-five";
+  //     break;
+  //   case (diceRoll.dice4 = 6):
+  //     document.getElementById("4").className = "fas fa-dice-six";
+  //     break;
+  // }
+
+  // switch (diceRoll.dice5) {
+  //   case (diceRoll.dice5 = 1):
+  //     document.getElementById("5").className = "fas fa-dice-one";
+  //     break;
+  //   case (diceRoll.dice5 = 2):
+  //     document.getElementById("5").className = "fas fa-dice-two";
+  //     break;
+  //   case (diceRoll.dice5 = 3):
+  //     document.getElementById("5").className = "fas fa-dice-three";
+  //     break;
+  //   case (diceRoll.dice5 = 4):
+  //     document.getElementById("5").className = "fas fa-dice-four";
+  //     break;
+  //   case (diceRoll.dice5 = 5):
+  //     document.getElementById("5").className = "fas fa-dice-five";
+  //     break;
+  //   case (diceRoll.dice5 = 6):
+  //     document.getElementById("5").className = "fas fa-dice-six";
+  //     break;
+  // }

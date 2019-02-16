@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+      integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+      crossorigin="anonymous"
+    />
+    <style>
+      .use {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Yahtzee</h1>
+      <button class="roll button btn-danger">
+        Roll Dice
+      </button>
+      <br /><br />
+      <!-- <div class="dice-gif-container">
+        <img class="dice-gif" src="/img/fast-dice.gif" alt="" />
+        <img class="dice-gif" src="/img/fast-dice.gif" alt="" />
+        <img class="dice-gif" src="/img/fast-dice.gif" alt="" />
+        <img class="dice-gif" src="/img/fast-dice.gif" alt="" />
+        <img class="dice-gif" src="/img/fast-dice.gif" alt="" />
+      </div> -->
+      <div class="dice">
+        <i id="1" class="fas fa-dice-one"></i>
+        <i id="2" class="fas fa-dice-one"></i>
+        <i id="3" class="fas fa-dice-one"></i>
+        <i id="4" class="fas fa-dice-one"></i>
+        <i id="5" class="fas fa-dice-one"></i>
+      </div>
+    </header>
+
+    <table style="width: 100%" id="game-board">
+      <tr class="upper-section">
+        <th>Upper Section</th>
+        <th>How<br />to score</th>
+        <th>
+          <button class="btn btn-success">Game<br />#1</button>
+        </th>
+        <th>
+          <button class="btn btn-secondary">Game<br />#2</button>
+        </th>
+        <th>
+          <button class="btn btn-secondary">Game<br />#3</button>
+        </th>
+        <th>
+          <button class="btn btn-secondary">Game<br />#4</button>
+        </th>
+        <th>
+          <button class="btn btn-secondary">Game<br />#5</button>
+        </th>
+        <th>
+          <button class="btn btn-secondary">Game<br />#6</button>
+        </th>
+      </tr>
+      <tr style="background-color: red;">
+        <th>Aces <i class="fas fa-dice-one"></i></th>
+        <th>COUNT AND ADD ONLY ACES</th>
+        <th id="Aces" class="current-game">
+          <button type="submit" id="use-aces" class="use btn btn-danger">
+            Use Aces
+          </button>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <th>Twos <i class="fas fa-dice-two"></i></th>
+        <th>COUNT AND ADD ONLY TWOS</th>
+        <th id="Twos">
+          <button type="submit" id="use-twos" class="use btn btn-danger">
+            Use Twos
+          </button>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <th>Threes <i class="fas fa-dice-three"></i></th>
+        <th>COUNT AND ADD ONLY THREES</th>
+        <th id="Threes">
+          <button type="submit" id="use-threes" class="use btn btn-danger">
+            Use Threes
+          </button>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <th>Fours <i class="fas fa-dice-four"></i></th>
+        <th>COUNT AND ADD ONLY FOURS</th>
+        <th id="Fours">
+          <button type="submit" id="use-fours" class="use btn btn-danger">
+            Use Fours
+          </button>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <th>Fives <i class="fas fa-dice-five"></i></th>
+        <th>COUNT AND ADD ONLY FIVES</th>
+        <th id="Fives">
+          <button type="submit" id="use-fives" class="use btn btn-danger">
+            Use Fives
+          </button>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <th>Sixes <i class="fas fa-dice-six"></i></th>
+        <th>COUNT AND ADD ONLY SIXES</th>
+        <th id="Sixes">
+          <button type="submit" id="use-sixes" class="use btn btn-danger">
+            Use Sixes
+          </button>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr class="total-score">
+        <th class="total">Total Score</th>
+        <th><i class="fas fa-arrow-right"></i></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr class="bonus-row">
+        <th class="bonus">
+          Bonus
+          <div>If total socre is 63 or over</div>
+        </th>
+        <th>SCORE 35</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr class="total-row">
+        <th class="total">
+          TOTAL
+          <div>Of Upper Section</div>
+        </th>
+        <th><i class="fas fa-arrow-right"></i></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+
+      <!-- =============== LOWER SECTION ============ -->
+      <tr class="lower-section">
+        <th>Lower Section</th>
+        <th>How<br />to score</th>
+        <th>Game<br />#1</th>
+        <th>Game<br />#2</th>
+        <th>Game<br />#3</th>
+        <th>Game<br />#4</th>
+        <th>Game<br />#5</th>
+        <th>Game<br />#6</th>
+      </tr>
+      <tr>
+        <th>3 of a kind</th>
+        <th>Add total of all dice</th>
+        <th>
+          <button
+            type="submit"
+            id="use-three-of-kind"
+            class="use btn btn-danger"
+          >
+            Use 3<br />of a kind
+          </button>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <th>4 of a kind</th>
+        <th>Add total of all dice</th>
+        <th>
+          <button
+            type="submit"
+            id="use-four-of-kind"
+            class="use btn btn-danger"
+          >
+            Use 4<br />of a kind
+          </button>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <th>Full House</th>
+        <th>SCORE<br />25</th>
+        <th>
+          <button type="submit" id="use-full-house" class="use btn btn-danger">
+            Use full<br />house
+          </button>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <th>Sm Straight <br /><span>Sequence of 4</span></th>
+        <th>
+          SCORE<br />
+          30
+        </th>
+        <th>
+          <button type="submit" id="use-sm-straight" class="use btn btn-danger">
+            Use Sm<br />Straight
+          </button>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <th>Lg Straigt<br /><span>Sequence of 5</span></th>
+        <th>
+          Score<br />
+          40
+        </th>
+        <th>
+          <button type="submit" id="use-lg-straight" class="use btn btn-danger">
+            Use Lg<br />Straight
+          </button>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <th>
+          YAHTZEE
+          <div>5 of a kind</div>
+        </th>
+        <th>Score<br />50</th>
+        <th>
+          <button type="submit" id="use-yahtzee" class="use btn btn-danger">
+            Use<br />YAHTZEE
+          </button>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+
+      <tr>
+        <th>Chance</th>
+        <th>Score total of all five dice</th>
+        <th>
+          <button type="submit" id="use-chance" class="use btn btn-danger">
+            Use<br />Chance
+          </button>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <th class="bonus">YAHTZEE <br />BONUS</th>
+        <th>SCORE 35</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr class="total-row">
+        <th class="total">
+          TOTAL
+          <div>Of Upper Section</div>
+        </th>
+        <th><i class="fas fa-arrow-right"></i></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr class="total-row">
+        <th class="total">
+          TOTAL
+          <div>Of Lower Section</div>
+        </th>
+        <th><i class="fas fa-arrow-right"></i></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr class="grand-total">
+        <th class="total">GRAND TOTAL</th>
+        <th><i class="fas fa-arrow-right"></i></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </table>
+
+    <!-- <script src="/app.js"></script> -->
+    <script src="app.4.js"></script>
+  </body>
+</html>
