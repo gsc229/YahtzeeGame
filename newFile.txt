@@ -1,0 +1,3 @@
+here's a new file to test on git
+adding some more changes to this file
+..doing some more changes.  Messing with VIM. ie.  trying to exit it. 
