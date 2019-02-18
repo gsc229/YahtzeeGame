@@ -1,0 +1,6 @@
+here's a new file to test on git
+adding some more changes to this file
+..doing some more changes.  Messing with VIM. ie.  trying to exit it. 
+
+....I created a new branch to do more work on.
+....I will add this, then commit it.
