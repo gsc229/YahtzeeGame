@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -154,10 +154,10 @@
         <th></th>
         <th></th>
       </tr>
-      <tr class="total-score">
+      <tr class="UpperSub">
         <th class="total">Total Score</th>
         <th><i class="fas fa-arrow-right"></i></th>
-        <th></th>
+        <th id="upper-sub-total"></th>
         <th></th>
         <th></th>
         <th></th>
@@ -170,7 +170,7 @@
           <div>If total socre is 63 or over</div>
         </th>
         <th>SCORE 35</th>
-        <th></th>
+        <th id="bonus-points"></th>
         <th></th>
         <th></th>
         <th></th>
@@ -183,7 +183,7 @@
           <div>Of Upper Section</div>
         </th>
         <th><i class="fas fa-arrow-right"></i></th>
-        <th></th>
+        <th id="upper-total"></th>
         <th></th>
         <th></th>
         <th></th>
@@ -205,7 +205,7 @@
       <tr>
         <th>3 of a kind</th>
         <th>Add total of all dice</th>
-        <th>
+        <th id="Three-of-kind">
           <button
             type="submit"
             id="use-three-of-kind"
@@ -223,7 +223,7 @@
       <tr>
         <th>4 of a kind</th>
         <th>Add total of all dice</th>
-        <th>
+        <th id="Four-of-kind">
           <button
             type="submit"
             id="use-four-of-kind"
