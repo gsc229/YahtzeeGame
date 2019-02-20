@@ -8,7 +8,7 @@
 const roll = document.querySelector(".roll");
 const useBtn = document.querySelectorAll(".use");
 const addPoints = document.querySelector("table"); //works
-
+const addPontsL = document.querySelector("#lower-table");
 const useAces = document.getElementById("use-aces");
 const useTwos = document.getElementById("use-twos");
 const useThrees = document.getElementById("use-threes");
@@ -19,16 +19,24 @@ const useSixes = document.getElementById("use-sixes");
 //!!!!!! GLOBAL DICE AND POINTS!!!!!!
 
 let points = 0;
-let threeOfKindPoints = 0;
-let fourOfKindPoints = 0;
+
+//Lower-section Points
+let TwOKface = 0;
+let ThOKface = 0;
+let FOKface = 0;
 let fullHousePoints = 0;
 let smStraightPoints = 0;
 let lgStraignPoints = 0;
 let yahtzeePoints = 0;
 let diceToScore; //works
+
+// Upper Totals
 let upperSubT = 0;
 const upperBonus = 35;
 let upperSecitonTotal = upperSubT;
+// Lower Totals
+let lowerTotal = 0;
+
 //!!!!!!!!!!!!!!EVENT LISTENERS
 loadEventListeners();
 //Load all event listeners
@@ -36,6 +44,7 @@ function loadEventListeners() {
   //roll dice
   roll.addEventListener("click", rollDice);
   addPoints.addEventListener("click", score);
+  addPontsL.addEventListener("click", score);
 }
 
 //!!!!!!!! ROLL THE DICE, CREATE AN ARRAY !!!!!!!!!!!!!!!!!!!
@@ -44,8 +53,8 @@ function rollDice(e) {
     return Math.ceil(Math.random() * 6);
   };
 
-  // const diceArr = [diceRoll(), diceRoll(), diceRoll(), diceRoll(), diceRoll()];
-  const diceArr = [4, 4, 4, 4, 5];
+  const diceArr = [diceRoll(), diceRoll(), diceRoll(), diceRoll(), diceRoll()];
+  // const diceArr = [5, 5, 5, 5, 5];
   const spellRoll = ["one", "two", "three", "four", "five", "six"];
   const spellRollArr = [
     spellRoll[diceArr[0] - 1],
@@ -66,14 +75,18 @@ function rollDice(e) {
   console.log("Dice to Score " + diceToScore);
   giveOptions(diceToScore);
   //DISABLE ROLL BUTTON
-  // roll.disabled = true;
-  // roll.className = "btn btn-secondary";
+  roll.disabled = true;
+  roll.className = "btn btn-secondary";
   console.log(spellRollArr);
 
   e.preventDefault();
 }
 //!!!!!!!!!!!!!!!TAKE ARRAY, GIVE SCORE OPTIONS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function giveOptions(arr) {
+  if (document.getElementById("Chance").childElementCount == 1) {
+    document.getElementById("use-chance").style.display = "block";
+  }
+
   if (
     arr.indexOf(1) != -1 &&
     document.getElementById("Aces").childElementCount == 1
@@ -128,6 +141,9 @@ function giveOptions(arr) {
     document.getElementById("use-sixes").style.display = "none";
   }
 
+  //!!!!!!! Combintation scenarios
+
+  // three of a kind
   if (document.getElementById("Three-of-kind").childElementCount == 1) {
     for (let i = 0; i < arr.length + 1; i++) {
       var search = arr[i];
@@ -136,20 +152,19 @@ function giveOptions(arr) {
         return accumulator + (currentvalue === search);
       }, 0);
 
-      if (count === 3) {
+      if (count >= 3) {
         document.getElementById("use-three-of-kind").style.display = "block";
-        threeOfKindPoints += count * arr[i];
-        console.log("Here's the count: " + count);
-        console.log(count + " occurences of the number: " + arr[i]);
-        console.log(typeof count);
-        console.log("TOK points: " + threeOfKindPoints);
+        ThOKface = arr[i];
+        // console.log("ThOK face: " + ThOKface);
         break;
       } else {
         document.getElementById("use-three-of-kind").style.display = "none";
+        ThOKface = 0;
       }
     }
   }
 
+  //four of a kind
   if (document.getElementById("Four-of-kind").childElementCount == 1) {
     for (let i = 0; i < arr.length + 1; i++) {
       var search = arr[i];
@@ -158,18 +173,116 @@ function giveOptions(arr) {
         return accumulator + (currentvalue === search);
       }, 0);
 
-      if (count === 4) {
+      if (count >= 4) {
         document.getElementById("use-four-of-kind").style.display = "block";
-        fourOfKindPoints += count * arr[i];
-        console.log("Here's the count: " + count);
-        console.log(count + " occurences of the number: " + arr[i]);
-        console.log(typeof count);
-        console.log("FOK points: " + fourOfKindPoints);
+        FOKface = arr[i];
+        // console.log("Here's the count: " + count);
+        // console.log(count + " occurences of the number: " + arr[i]);
+        // console.log("FOKface: " + FOKface);
         break;
       } else {
         document.getElementById("use-four-of-kind").style.display = "none";
+        FOKface = 0;
       }
     }
+  }
+
+  //Yahtzee
+  if (document.getElementById("Yahtzee").childElementCount == 1) {
+    for (let i = 0; i < arr.length + 1; i++) {
+      var search = arr[i];
+
+      var count = arr.reduce(function(accumulator, currentvalue) {
+        return accumulator + (currentvalue === search);
+      }, 0);
+
+      if (count === 5) {
+        document.getElementById("use-yahtzee").style.display = "block";
+        yahtzeePoints = 50;
+        // console.log("Here's the count: " + count);
+        // console.log(count + " occurences of the number: " + arr[i]);
+        console.log("Yahtzee: " + yahtzeePoints);
+        break;
+      } else {
+        document.getElementById("use-yahtzee").style.display = "none";
+        yahtzeePoints = 0;
+      }
+    }
+  }
+
+  // full house
+
+  if (document.getElementById("Full-house").childElementCount == 1) {
+    for (let i = 0; i < arr.length + 1; i++) {
+      var searchTwOK = arr[i];
+
+      var countForTwOK = arr.reduce(function(accumulator, currentvalue) {
+        return accumulator + (currentvalue === searchTwOK);
+      }, 0);
+
+      if (countForTwOK === 2 && ThOKface != 0) {
+        TwOKface = arr[i];
+        document.getElementById("use-full-house").style.display = "block";
+        console.log(`TwOkFace: ${TwOKface} ThOkFace: ${ThOKface}`);
+        break;
+      } else {
+        document.getElementById("use-full-house").style.display = "none";
+        TwOKface = 0;
+      }
+    }
+  }
+
+  //Large Straight
+  if (document.getElementById("Large-straight").childElementCount == 1) {
+    const sorted = arr.sort();
+    let count = 0;
+
+    for (let i = 0; i < sorted.length; i++) {
+      if (sorted[i + 1] - sorted[i] === 1) {
+        count++;
+      }
+    }
+
+    if (count === 4) {
+      document.getElementById("use-lg-straight").style.display = "block";
+      lgStraignPoints = 40;
+    } else {
+      document.getElementById("use-lg-straight").style.display = "none";
+    }
+    // console.log(`
+    //   ${sorted} LS Count: ${count}
+    //   lgStraightPoints: ${lgStraignPoints}
+    // `);
+  }
+  //Small Straight
+  if (document.getElementById("Small-straight").childElementCount == 1) {
+    const sorted = arr.sort();
+    sorted.pop();
+    let count = 0;
+
+    for (let i = 0; i < sorted.length; i++) {
+      if (sorted[i + 1] - sorted[i] === 1) {
+        count++;
+      } else if (sorted[i + 1] - sorted[i] !== 1) {
+        break;
+      }
+    }
+
+    if (count === 3) {
+      document.getElementById("use-sm-straight").style.display = "block";
+      smStraightPoints = 30;
+    } else if (count === 3 && sSwitch) {
+      document.getElementById("use-sm-straight").style.display = "block";
+      smStraightPoints = 30;
+    } else {
+      document.getElementById("use-sm-straight").style.display = "none";
+      document.getElementById("use-lg-straight").style.display = "none";
+    }
+    // console.log(`
+    //   ${sorted} SS Count: ${count}
+    //   smStraightPoints: ${smStraightPoints}
+
+    // `);
   }
 }
 
@@ -182,7 +295,7 @@ function score(e) {
   });
 
   let span = document.createElement("span");
-  span.style.border = "solid 2px black";
+  span.className = "score-span";
 
   switch (e.target.id) {
     case "use-aces":
@@ -195,10 +308,7 @@ function score(e) {
       span.innerHTML = points;
       document.getElementById("Aces").appendChild(span);
       upperSubT += points;
-      console.log("Points Added: " + points);
-      console.log("Upper SubTotal: " + upperSubT);
-      points = 0;
-      console.log("Points Reset: " + points);
+
       break;
 
     case "use-twos":
@@ -211,10 +321,7 @@ function score(e) {
       span.innerHTML = points;
       document.getElementById("Twos").appendChild(span);
       upperSubT += points;
-      console.log("Points Added: " + points);
-      console.log("Upper SubTotal: " + upperSubT);
-      points = 0;
-      console.log("Points Reset: " + points);
+
       break;
 
     case "use-threes":
@@ -227,10 +334,7 @@ function score(e) {
       span.innerHTML = points;
       document.getElementById("Threes").appendChild(span);
       upperSubT += points;
-      console.log("Points Added: " + points);
-      console.log("Upper SubTotal: " + upperSubT);
-      points = 0;
-      console.log("Points Reset: " + points);
+
       break;
 
     case "use-fours":
@@ -243,10 +347,7 @@ function score(e) {
       span.innerHTML = points;
       document.getElementById("Fours").appendChild(span);
       upperSubT += points;
-      console.log("Points Added: " + points);
-      console.log("Upper SubTotal: " + upperSubT);
-      points = 0;
-      console.log("Points Reset: " + points);
+
       break;
 
     case "use-fives":
@@ -259,10 +360,7 @@ function score(e) {
       span.innerHTML = points;
       document.getElementById("Fives").appendChild(span);
       upperSubT += points;
-      console.log("Points Added: " + points);
-      console.log("Upper SubTotal: " + upperSubT);
-      points = 0;
-      console.log("Points Reset: " + points);
+
       break;
 
     case "use-sixes":
@@ -275,23 +373,53 @@ function score(e) {
       span.innerHTML = points;
       document.getElementById("Sixes").appendChild(span);
       upperSubT += points;
-      console.log("Points Added: " + points);
-      console.log("Upper SubTotal: " + upperSubT);
-      points = 0;
-      console.log("Points Reset: " + points);
+
       break;
 
     case "use-three-of-kind":
-      span.innerHTML = threeOfKindPoints;
+      span.innerHTML = ThOKface * 3;
       document.getElementById("Three-of-kind").appendChild(span);
+      lowerTotal += ThOKface * 3;
+      ThOKface = 0;
+      console.log("TOK reset? " + ThOKface);
       break;
 
     case "use-four-of-kind":
-      span.innerHTML = fourOfKindPoints;
+      span.innerHTML = FOKface * 4;
       document.getElementById("Four-of-kind").appendChild(span);
+      lowerTotal += FOKface * 4;
+      FOKface = 0;
+      break;
+
+    case "use-full-house":
+      span.innerHTML = TwOKface * 2 + ThOKface * 3;
+      document.getElementById("Full-house").appendChild(span);
+      lowerTotal += TwOKface * 2 + ThOKface * 3;
+      TwOKface = 0;
+      ThOKface = 0;
+      break;
+    case "use-sm-straight":
+      span.innerHTML = smStraightPoints;
+      document.getElementById("Small-straight").appendChild(span);
+      lowerTotal += smStraightPoints;
+      smStraightPoints = 0;
+      lgStraignPoints = 0;
+      break;
+    case "use-lg-straight":
+      span.innerHTML = lgStraignPoints;
+      document.getElementById("Large-straight").appendChild(span);
+      lowerTotal += lgStraignPoints;
+      smStraightPoints = 0;
+      lgStraignPoints = 0;
+      break;
+    case "use-yahtzee":
+      span.innerHTML = yahtzeePoints;
+      document.getElementById("Yahtzee").appendChild(span);
+      lowerTotal += yahtzeePoints;
+      yahtzeePoints = 0;
       break;
   }
-
+  // Upper Sub Total
   let upperSubTElement = document.getElementById("upper-sub-total");
   upperSubTElement.innerText = upperSubT;
   let upperTotalElement = document.getElementById("upper-total");
@@ -303,5 +431,27 @@ function score(e) {
     upperTotalElement.innerText = upperSubT;
   }
 
-  console.log("Category Used " + e.target.id);
+  // Lower Sub Total
+  let lowerUpperTotal = document.getElementById("lower-upper-total");
+  lowerUpperTotal.innerText = upperSubT;
+  let lowerTotalScore = document.getElementById("lower-total");
+  lowerTotalScore.innerText = lowerTotal;
+  //Grand total
+  let grandTotal = upperSubT + lowerTotal;
+  let grandTotalScore = document.getElementById("grand-total");
+  grandTotalScore.innerText = grandTotal;
+
+  // Yahtzee Bonus
+
+  //
+
+  console.log(`Points Added: ${points}`);
+  points = 0;
+  console.log(`Points Reset: ${points}`);
+  console.log(`Category Used: ${e.target.id}`);
+  console.log(`
+  UpperTotal: ${upperSubT}
+  LowerTotal: ${lowerTotal}
+  GrandTotal: ${grandTotal}
+  `);
 }
