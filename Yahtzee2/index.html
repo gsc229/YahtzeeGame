@@ -23,12 +23,13 @@
         display: none;
       }
     </style>
+    <title>Yahtzee</title>
   </head>
   <body id="body">
     <div class="conatiner">
       <div class="row">
         <!-- COL 1 -->
-        <div class="col-xl">
+        <div class="col">
           <div class="header">
             <h1>Yahtzee</h1>
             <!-- <div class="dice-gif-container">
@@ -53,7 +54,7 @@
           </div>
         </div>
         <!-- COL 2 -->
-        <div class="col-xl">
+        <div class="col">
           <table class="upper-table" id="game-board">
             <tr class="upper-section">
               <th>Upper Section</th>
@@ -211,7 +212,7 @@
         <!-- =============== LOWER SECTION ============ -->
 
         <!-- COL 3 -->
-        <div class="col-xl">
+        <div class="col">
           <table id="lower-table">
             <tr class="lower-section">
               <th>Lower Section</th>
@@ -348,19 +349,15 @@
               <th class="bonus">YAHTZEE <br />BONUS</th>
               <th>c for each bonus</th>
               <th class="yahtzee-bonus">
-                <table style="margin: 0px;" class="table table-bordered">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    
+                <table id="yahtzee-bonus-checks" style="margin: 0px;" class="table table-bordered">
+                  <td>Hello!</td>
+                  <td></td>
+                  <td></td>
                 </table>
-                <table style="margin: 0px;" class="table table-bordered">
+                <table id="yahtzee-bonus-total" style="margin: 0px;" class="table table-bordered">
                   <td>
-                    
                   </td>
                 </table>
-                
-                
               </th>
               <th></th>
               <th></th>

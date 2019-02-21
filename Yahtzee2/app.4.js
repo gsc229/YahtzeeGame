@@ -28,6 +28,8 @@ let fullHousePoints = 0;
 let smStraightPoints = 0;
 let lgStraignPoints = 0;
 let yahtzeePoints = 0;
+let yahtzeeCount = 0;
+let yahtzeeBonus = 0;
 let diceToScore; //works
 
 // Upper Totals
@@ -53,8 +55,11 @@ function rollDice(e) {
     return Math.ceil(Math.random() * 6);
   };
 
-  const diceArr = [diceRoll(), diceRoll(), diceRoll(), diceRoll(), diceRoll()];
-  // const diceArr = [5, 5, 5, 5, 5];
+  // const diceArr = [diceRoll(), diceRoll(), diceRoll(), diceRoll(), diceRoll()];
+  const diceArr = [5, 5, 5, 5, 5];
+  // const diceArr = [2, 3, 4, 4, 5];
+  // const diceArr = [1, 2, 3, 5, 6];
+  // const diceArr = [2, 3, 4, 4, 5];
   const spellRoll = ["one", "two", "three", "four", "five", "six"];
   const spellRollArr = [
     spellRoll[diceArr[0] - 1],
@@ -73,16 +78,24 @@ function rollDice(e) {
   //Set diceToScore equal to diceArr
   diceToScore = diceArr;
   console.log("Dice to Score " + diceToScore);
-  giveOptions(diceToScore);
+  // Performance for options
+  var t0 = performance.now();
+  giveOptions(diceToScore); //do something
+  var t1 = performance.now();
+
+  console.log("Call to giveOptions: " + (t1 - t0) + " milliseconds.");
+
   //DISABLE ROLL BUTTON
-  roll.disabled = true;
-  roll.className = "btn btn-secondary";
+  // roll.disabled = true;
+  // roll.className = "btn btn-secondary";
   console.log(spellRollArr);
 
   e.preventDefault();
 }
+
 //!!!!!!!!!!!!!!!TAKE ARRAY, GIVE SCORE OPTIONS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function giveOptions(arr) {
+  //Chance
   if (document.getElementById("Chance").childElementCount == 1) {
     document.getElementById("use-chance").style.display = "block";
   }
@@ -188,25 +201,24 @@ function giveOptions(arr) {
   }
 
   //Yahtzee
-  if (document.getElementById("Yahtzee").childElementCount == 1) {
-    for (let i = 0; i < arr.length + 1; i++) {
-      var search = arr[i];
 
-      var count = arr.reduce(function(accumulator, currentvalue) {
-        return accumulator + (currentvalue === search);
-      }, 0);
+  for (let i = 0; i < arr.length + 1; i++) {
+    var search = arr[i];
 
-      if (count === 5) {
-        document.getElementById("use-yahtzee").style.display = "block";
-        yahtzeePoints = 50;
-        // console.log("Here's the count: " + count);
-        // console.log(count + " occurences of the number: " + arr[i]);
-        console.log("Yahtzee: " + yahtzeePoints);
-        break;
-      } else {
-        document.getElementById("use-yahtzee").style.display = "none";
-        yahtzeePoints = 0;
-      }
+    var count = arr.reduce(function(accumulator, currentvalue) {
+      return accumulator + (currentvalue === search);
+    }, 0);
+
+    if (count === 5) {
+      document.getElementById("use-yahtzee").style.display = "block";
+      yahtzeePoints = 50;
+      // console.log("Here's the count: " + count);
+      // console.log(count + " occurences of the number: " + arr[i]);
+      console.log("Yahtzee: " + yahtzeePoints);
+      break;
+    } else {
+      document.getElementById("use-yahtzee").style.display = "none";
+      yahtzeePoints = 0;
     }
   }
 
@@ -256,15 +268,14 @@ function giveOptions(arr) {
   }
   //Small Straight
   if (document.getElementById("Small-straight").childElementCount == 1) {
-    const sorted = arr.sort();
-    sorted.pop();
+    const sorted2 = arr.sort();
     let count = 0;
 
-    for (let i = 0; i < sorted.length; i++) {
-      if (sorted[i + 1] - sorted[i] === 1) {
-        count++;
-      } else if (sorted[i + 1] - sorted[i] !== 1) {
+    for (let i = 0; i < sorted2.length + 1; i++) {
+      if (sorted2[2] - sorted2[1] != 1 || sorted2[3] - sorted2[2] != 1) {
         break;
+      } else if (sorted2[i + 1] - sorted2[i] === 1) {
+        count++;
       }
     }
 
@@ -279,11 +290,13 @@ function giveOptions(arr) {
       document.getElementById("use-lg-straight").style.display = "none";
     }
     // console.log(`
-    //   ${sorted} SS Count: ${count}
+    //   ${sorted2} SS Count: ${count}
     //   smStraightPoints: ${smStraightPoints}
 
     // `);
   }
+
+  //chance
 }
 
 //!!!!!!! ADD SCORE TO BOARD !!!!!!!!!!!!!!!
@@ -295,7 +308,8 @@ function score(e) {
   });
 
   let span = document.createElement("span");
-  span.className = "score-span";
+
+  // span.className = "score-span";
 
   switch (e.target.id) {
     case "use-aces":
@@ -415,9 +429,33 @@ function score(e) {
     case "use-yahtzee":
       span.innerHTML = yahtzeePoints;
       document.getElementById("Yahtzee").appendChild(span);
+      yahtzeeCount += 1;
+
       lowerTotal += yahtzeePoints;
       yahtzeePoints = 0;
+
+      //Yahtzee Bonuse
+      //     if (yahtzeeCount >= 1 && yahtzeeCont <= 3) {
+      //       yahtzeeBonus += 100;
+      //       document
+      //         .querySelector(`#yahtzee-bonus-checks td:nth-Child(${yahtzeeCount})`)
+      //         .appendChild(check);
+      //       console.log(`
+      // Yahtzee Count: ${yahtzeeCount}
+      // Yahtzee Bonus: ${yahtzeeBonus}
+      // ${document.querySelector(`#yahtzee-bonus-checks td:nth-Child(1)`).innerText}
+      // `);
+      //     }
+
       break;
+    case "use-chance":
+      let chancePoints = diceToScore.reduce(function(acc, curr) {
+        return acc + curr;
+      }, 0);
+      span.innerHTML = chancePoints;
+      document.getElementById("Chance").appendChild(span);
+      lowerTotal += chancePoints;
+      chancePoints = 0;
   }
   // Upper Sub Total
   let upperSubTElement = document.getElementById("upper-sub-total");

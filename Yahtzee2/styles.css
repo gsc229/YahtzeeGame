@@ -1,9 +1,12 @@
 #body {
   margin: 0px;
-  padding: 50px;
+
   background-color: black;
 }
 
+/* #yahtzee-bonus-checks td:nth-child(3) {
+  background-color: aqua;
+} */
 .container {
   background-color: black;
 }
@@ -12,7 +15,6 @@
 }
 .header {
   text-align: center;
-
   background-color: burlywood;
   border: 1px solid #ccc;
 }
@@ -89,9 +91,9 @@ th:nth-child(1) {
   border-bottom: 4px solid black;
 }
 
-span {
+/* span {
   padding: 5px;
-}
+} */
 
 /* .score-span {
   font-size: 1.5em;
