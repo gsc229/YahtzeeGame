@@ -1,5 +1,5 @@
 # YahtzeeGame
-creating a Yahtzee game with javascript
+I'm creating a Yahtzee game with javascript
 I have an intermediate knowledge of javascript.  Writing the code for a Yahtzee game 
 is a challenge I've given myself. I'm pretty sure that the existing code
 in the early version is 'spaghetti' code, but I figure, heck, I'll give it a try and
