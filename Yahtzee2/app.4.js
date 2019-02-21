@@ -6,7 +6,9 @@
 //Here is a change
 //!!!!!!!!!!!!!GAMER VARIABLES!!!!!!!!!!!!!!!!!!!!!!!!
 const roll = document.querySelector(".roll");
-const addPointsBtn = document.querySelectorAll(".use");
+const useBtn = document.querySelectorAll(".use");
+const addPoints = document.querySelector("table"); //works
+const addPontsL = document.querySelector("#lower-table");
 const useAces = document.getElementById("use-aces");
 const useTwos = document.getElementById("use-twos");
 const useThrees = document.getElementById("use-threes");
@@ -14,12 +16,28 @@ const useFours = document.getElementById("use-fours");
 const useFives = document.getElementById("use-fives");
 const useSixes = document.getElementById("use-sixes");
 
-const useBtn = document.querySelector("table"); //works
+//!!!!!! GLOBAL DICE AND POINTS!!!!!!
 
-//!!!!!! DICE OBJECTS!!!!!!
+let points = 0;
 
-let pointsAces = 0;
-let diceToScore = []; //works
+//Lower-section Points
+let TwOKface = 0;
+let ThOKface = 0;
+let FOKface = 0;
+let fullHousePoints = 0;
+let smStraightPoints = 0;
+let lgStraignPoints = 0;
+let yahtzeePoints = 0;
+let yahtzeeCount = 0;
+let yahtzeeBonus = 0;
+let diceToScore; //works
+console.log(`Yahtzee Count Above: ${yahtzeeCount}`);
+// Upper Totals
+let upperSubT = 0;
+const upperBonus = 35;
+let upperSecitonTotal = upperSubT;
+// Lower Totals
+let lowerTotal = 0;
 
 //!!!!!!!!!!!!!!EVENT LISTENERS
 loadEventListeners();
@@ -27,8 +45,8 @@ loadEventListeners();
 function loadEventListeners() {
   //roll dice
   roll.addEventListener("click", rollDice);
-  //use points
-  useBtn.addEventListener("click", showScore); //works
+  addPoints.addEventListener("click", score);
+  addPontsL.addEventListener("click", score);
 }
 
 //!!!!!!!! ROLL THE DICE, CREATE AN ARRAY !!!!!!!!!!!!!!!!!!!
@@ -37,7 +55,11 @@ function rollDice(e) {
     return Math.ceil(Math.random() * 6);
   };
 
-  const diceArr = [diceRoll(), diceRoll(), diceRoll(), diceRoll(), diceRoll()];
+  // const diceArr = [diceRoll(), diceRoll(), diceRoll(), diceRoll(), diceRoll()];
+  const diceArr = [2, 6, 6, 2, 2];
+  // const diceArr = [2, 3, 4, 4, 5];
+  // const diceArr = [1, 2, 3, 5, 6];
+  // const diceArr = [2, 3, 4, 4, 5];
   const spellRoll = ["one", "two", "three", "four", "five", "six"];
   const spellRollArr = [
     spellRoll[diceArr[0] - 1],
@@ -53,199 +75,444 @@ function rollDice(e) {
   document.getElementById("4").className = `fas fa-dice-${spellRollArr[3]}`;
   document.getElementById("5").className = `fas fa-dice-${spellRollArr[4]}`;
 
+  //Set diceToScore equal to diceArr
+  diceToScore = diceArr;
+  console.log("Dice to Score " + diceToScore);
+  // Performance for options
+
+  giveOptions(diceToScore); //do something
+
   //DISABLE ROLL BUTTON
-  roll.disabled = true;
-  roll.className = "btn btn-secondary";
-  //console.log(diceArr, spellRollArr);
-  setScore(diceArr);
+  // roll.disabled = true;
+  // roll.className = "btn btn-secondary";
+  console.log(spellRollArr);
+
   e.preventDefault();
 }
-//!!!!!!!!!!!!!!!TAKE ARRAY, GIVE SCORE OPTIONS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const setScore = function(arr) {
-  // console.log(arr);
 
-  //Check to see if number is rolled and score exists
+//!!!!!!!!!!!!!!!TAKE ARRAY, GIVE SCORE OPTIONS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+function giveOptions(arr) {
+  var t0 = performance.now();
+
+  //Chance
+  if (document.getElementById("Chance").childElementCount == 1) {
+    document.getElementById("use-chance").style.display = "block";
+  }
+
   if (
     arr.indexOf(1) != -1 &&
     document.getElementById("Aces").childElementCount == 1
   ) {
-    useAces.style.display = "block";
-    document.getElementById("use-aces").addEventListener("mousedown", pushAces);
-    function pushAces(e) {
-      let addPoints = [];
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i] === 1) {
-          addPoints.push(arr[i]);
-          showScore(addPoints);
-
-          console.log("UseOne's: " + addPoints);
-        }
-      }
-      addPoints = [];
-    }
+    document.getElementById("use-aces").style.display = "block";
   } else {
-    useAces.style.display = "none";
+    document.getElementById("use-aces").style.display = "none";
   }
-  // //TWOS
+
   if (
     arr.indexOf(2) != -1 &&
     document.getElementById("Twos").childElementCount == 1
   ) {
-    useTwos.style.display = "block";
-    document.getElementById("use-twos").addEventListener("mousedown", pushTwos);
-    function pushTwos(e) {
-      let addPoints = [];
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i] === 2) {
-          addPoints.push(arr[i]);
-          showScore(addPoints);
-
-          console.log("UseTwos: " + addPoints);
-        }
-      }
-      addPoints = [];
-    }
+    document.getElementById("use-twos").style.display = "block";
   } else {
-    useTwos.style.display = "none";
+    document.getElementById("use-twos").style.display = "none";
   }
-  // //THREES
+
   if (
     arr.indexOf(3) != -1 &&
     document.getElementById("Threes").childElementCount == 1
   ) {
-    useThrees.style.display = "block";
-    document
-      .getElementById("use-threes")
-      .addEventListener("mousedown", pushThrees);
-    function pushThrees(e) {
-      let addPoints = [];
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i] === 3) {
-          addPoints.push(arr[i]);
-          showScore(addPoints);
-
-          console.log("UseThrees: " + addPoints);
-        }
-      }
-      addPoints = [];
-    }
+    document.getElementById("use-threes").style.display = "block";
   } else {
-    useThrees.style.display = "none";
+    document.getElementById("use-threes").style.display = "none";
   }
-
-  // //FOURS
 
   if (
     arr.indexOf(4) != -1 &&
     document.getElementById("Fours").childElementCount == 1
   ) {
-    useFours.style.display = "block";
-    document
-      .getElementById("use-fours")
-      .addEventListener("mousedown", pushFours);
-    function pushFours(e) {
-      let addPoints = [];
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i] === 4) {
-          addPoints.push(arr[i]);
-          showScore(addPoints);
-
-          console.log("UseFours: " + addPoints);
-        }
-      }
-      addPoints = [];
-    }
+    document.getElementById("use-fours").style.display = "block";
   } else {
-    useFours.style.display = "none";
+    document.getElementById("use-fours").style.display = "none";
   }
 
-  // //FIVES
   if (
     arr.indexOf(5) != -1 &&
     document.getElementById("Fives").childElementCount == 1
   ) {
-    useFives.style.display = "block";
-    document
-      .getElementById("use-fives")
-      .addEventListener("mousedown", pushFives);
-    function pushFives(e) {
-      let addPoints = [];
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i] === 5) {
-          addPoints.push(arr[i]);
-          showScore(addPoints);
-
-          console.log("UseFives: " + addPoints);
-        }
-      }
-      addPoints = [];
-    }
+    document.getElementById("use-fives").style.display = "block";
   } else {
-    useFives.style.display = "none";
+    document.getElementById("use-fives").style.display = "none";
   }
 
-  // //SIXES
   if (
     arr.indexOf(6) != -1 &&
     document.getElementById("Sixes").childElementCount == 1
   ) {
-    useSixes.style.display = "block";
-    document
-      .getElementById("use-sixes")
-      .addEventListener("mousedown", pushSixes);
-    function pushSixes(e) {
-      let addPoints = [];
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i] === 6) {
-          addPoints.push(arr[i]);
-          showScore(addPoints);
-          console.log("UseSixes: " + addPoints);
-        }
-      }
-      addPoints = [];
-    }
+    document.getElementById("use-sixes").style.display = "block";
   } else {
-    useSixes.style.display = "none";
+    document.getElementById("use-sixes").style.display = "none";
   }
 
-  // <button
-  //   onclick="Aces()"
-  //   type="submit"
-  //   id="use-aces"
-  //   class="use btn btn-danger"
-  // >
-};
+  //!!!!!!! Combintation scenarios
 
-//!!!!!!!!!!!!!!! SET SCORE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-function showScore(arr) {
-  //e.target.parentElement.appendChild("<span>The score</span>");
-  console.log(arr);
-  const span = document.createElement("span");
-  const parent = e.target.parentNode;
+  // three of a kind
+  if (document.getElementById("Three-of-kind").childElementCount == 1) {
+    for (let i = 0; i < arr.length + 1; i++) {
+      var search = arr[i];
 
-  span.className = "score";
-  span.appendChild(
-    document.createTextNode(
-      arr.reduce(function(x, y) {
-        return x + y;
-      }, 0)
-    )
-  );
+      var count = arr.reduce(function(accumulator, currentvalue) {
+        return accumulator + (currentvalue === search);
+      }, 0);
 
-  if (e.target.classList.contains("use")) {
-    parent.appendChild(span);
-    e.target.setAttribute("style", "display: none;");
-    addPointsBtn.forEach(function(ele) {
-      ele.setAttribute("style", "none");
-    });
-    diceToScore = [];
+      if (count >= 3) {
+        document.getElementById("use-three-of-kind").style.display = "block";
+        ThOKface = arr[i];
+        // console.log("ThOK face: " + ThOKface);
+        break;
+      } else {
+        document.getElementById("use-three-of-kind").style.display = "none";
+        ThOKface = 0;
+      }
+    }
   }
 
+  //four of a kind
+  if (document.getElementById("Four-of-kind").childElementCount == 1) {
+    for (let i = 0; i < arr.length + 1; i++) {
+      var search = arr[i];
+
+      var count = arr.reduce(function(accumulator, currentvalue) {
+        return accumulator + (currentvalue === search);
+      }, 0);
+
+      if (count >= 4) {
+        document.getElementById("use-four-of-kind").style.display = "block";
+        FOKface = arr[i];
+        // console.log("Here's the count: " + count);
+        // console.log(count + " occurences of the number: " + arr[i]);
+        // console.log("FOKface: " + FOKface);
+        break;
+      } else {
+        document.getElementById("use-four-of-kind").style.display = "none";
+        FOKface = 0;
+      }
+    }
+  }
+
+  //Yahtzee
+
+  for (let i = 0; i < arr.length + 1; i++) {
+    var search = arr[i];
+
+    var count = arr.reduce(function(accumulator, currentvalue) {
+      return accumulator + (currentvalue === search);
+    }, 0);
+
+    if (count === 5) {
+      document.getElementById("use-yahtzee").style.display = "block";
+      yahtzeePoints = 50;
+      // console.log("Here's the count: " + count);
+      // console.log(count + " occurences of the number: " + arr[i]);
+      // console.log("Yahtzee: " + yahtzeePoints);
+      break;
+    } else {
+      document.getElementById("use-yahtzee").style.display = "none";
+      yahtzeePoints = 0;
+    }
+  }
+
+  console.log(`Yahtzee Count Below: ${yahtzeeCount}`);
+
+  // full house
+
+  if (document.getElementById("Full-house").childElementCount == 1) {
+    for (let i = 0; i < arr.length + 1; i++) {
+      var searchTwOK = arr[i];
+
+      var countForTwOK = arr.reduce(function(accumulator, currentvalue) {
+        return accumulator + (currentvalue === searchTwOK);
+      }, 0);
+
+      if (countForTwOK === 2 && ThOKface != 0) {
+        TwOKface = arr[i];
+        document.getElementById("use-full-house").style.display = "block";
+        console.log(`TwOkFace: ${TwOKface} ThOkFace: ${ThOKface}`);
+        break;
+      } else {
+        document.getElementById("use-full-house").style.display = "none";
+        TwOKface = 0;
+      }
+    }
+  }
+
+  //Large Straight
+  if (document.getElementById("Large-straight").childElementCount == 1) {
+    const sorted = arr.sort();
+    let count = 0;
+
+    for (let i = 0; i < sorted.length; i++) {
+      if (sorted[i + 1] - sorted[i] === 1) {
+        count++;
+      }
+    }
+
+    if (count === 4) {
+      document.getElementById("use-lg-straight").style.display = "block";
+      lgStraignPoints = 40;
+    } else {
+      document.getElementById("use-lg-straight").style.display = "none";
+    }
+    // console.log(`
+    //   ${sorted} LS Count: ${count}
+    //   lgStraightPoints: ${lgStraignPoints}
+    // `);
+  }
+  //Small Straight
+  if (document.getElementById("Small-straight").childElementCount == 1) {
+    const sorted2 = arr.sort();
+    let count = 0;
+
+    for (let i = 0; i < sorted2.length + 1; i++) {
+      if (sorted2[2] - sorted2[1] != 1 || sorted2[3] - sorted2[2] != 1) {
+        break;
+      } else if (sorted2[i + 1] - sorted2[i] === 1) {
+        count++;
+      }
+    }
+
+    if (count === 3) {
+      document.getElementById("use-sm-straight").style.display = "block";
+      smStraightPoints = 30;
+    } else if (count === 3 && sSwitch) {
+      document.getElementById("use-sm-straight").style.display = "block";
+      smStraightPoints = 30;
+    } else {
+      document.getElementById("use-sm-straight").style.display = "none";
+      document.getElementById("use-lg-straight").style.display = "none";
+    }
+    // console.log(`
+    //   ${sorted2} SS Count: ${count}
+    //   smStraightPoints: ${smStraightPoints}
+
+    // `);
+  }
+  var t1 = performance.now();
+
+  console.log("Call to giveOptions: " + (t1 - t0) + " milliseconds.");
+  //chance
+}
+
+//!!!!!!! ADD SCORE TO BOARD !!!!!!!!!!!!!!!
+function score(e) {
+  var t2 = performance.now();
   roll.disabled = false;
   roll.className = "btn btn-danger";
+  useBtn.forEach(function(btn) {
+    btn.style.display = "none";
+  });
 
-  e.preventDefault();
+  let span = document.createElement("span");
+  let check = document.createElement("i");
+  check.className = "fas fa-check";
+  check.setAttribute("style", "font-size: 10px;");
+  // span.className = "score-span";
+
+  switch (e.target.id) {
+    case "use-aces":
+      for (let i = 0; i < diceToScore.length; i++) {
+        if (diceToScore[i] === 1) {
+          points += diceToScore[i];
+        }
+      }
+
+      span.innerHTML = points;
+      document.getElementById("Aces").appendChild(span);
+      upperSubT += points;
+
+      break;
+
+    case "use-twos":
+      for (let i = 0; i < diceToScore.length; i++) {
+        if (diceToScore[i] === 2) {
+          points += diceToScore[i];
+        }
+      }
+
+      span.innerHTML = points;
+      document.getElementById("Twos").appendChild(span);
+      upperSubT += points;
+
+      break;
+
+    case "use-threes":
+      for (let i = 0; i < diceToScore.length; i++) {
+        if (diceToScore[i] === 3) {
+          points += diceToScore[i];
+        }
+      }
+
+      span.innerHTML = points;
+      document.getElementById("Threes").appendChild(span);
+      upperSubT += points;
+
+      break;
+
+    case "use-fours":
+      for (let i = 0; i < diceToScore.length; i++) {
+        if (diceToScore[i] === 4) {
+          points += diceToScore[i];
+        }
+      }
+
+      span.innerHTML = points;
+      document.getElementById("Fours").appendChild(span);
+      upperSubT += points;
+
+      break;
+
+    case "use-fives":
+      for (let i = 0; i < diceToScore.length; i++) {
+        if (diceToScore[i] === 5) {
+          points += diceToScore[i];
+        }
+      }
+
+      span.innerHTML = points;
+      document.getElementById("Fives").appendChild(span);
+      upperSubT += points;
+
+      break;
+
+    case "use-sixes":
+      for (let i = 0; i < diceToScore.length; i++) {
+        if (diceToScore[i] === 6) {
+          points += diceToScore[i];
+        }
+      }
+
+      span.innerHTML = points;
+      document.getElementById("Sixes").appendChild(span);
+      upperSubT += points;
+
+      break;
+
+    case "use-three-of-kind":
+      span.innerHTML = ThOKface * 3;
+      document.getElementById("Three-of-kind").appendChild(span);
+      lowerTotal += ThOKface * 3;
+      ThOKface = 0;
+      console.log("TOK reset? " + ThOKface);
+      break;
+
+    case "use-four-of-kind":
+      span.innerHTML = FOKface * 4;
+      document.getElementById("Four-of-kind").appendChild(span);
+      lowerTotal += FOKface * 4;
+      FOKface = 0;
+      break;
+
+    case "use-full-house":
+      span.innerHTML = TwOKface * 2 + ThOKface * 3;
+      document.getElementById("Full-house").appendChild(span);
+      lowerTotal += TwOKface * 2 + ThOKface * 3;
+      TwOKface = 0;
+      ThOKface = 0;
+      break;
+    case "use-sm-straight":
+      span.innerHTML = smStraightPoints;
+      document.getElementById("Small-straight").appendChild(span);
+      lowerTotal += smStraightPoints;
+      smStraightPoints = 0;
+      lgStraignPoints = 0;
+      break;
+    case "use-lg-straight":
+      span.innerHTML = lgStraignPoints;
+      document.getElementById("Large-straight").appendChild(span);
+      lowerTotal += lgStraignPoints;
+      smStraightPoints = 0;
+      lgStraignPoints = 0;
+      break;
+
+    case "use-yahtzee":
+      if (yahtzeeCount == 0) {
+        span.innerHTML = yahtzeePoints;
+        document.getElementById("Yahtzee").appendChild(span);
+        yahtzeeCount++;
+
+        lowerTotal += yahtzeePoints;
+        yahtzeePoints = 0;
+        console.log(`Yahtzee Count: ${yahtzeeCount}`);
+      } else if (yahtzeeCount >= 1 && yahtzeeCount <= 3) {
+        yahtzeeBonus += 100;
+        lowerTotal += 100;
+        yahtzeeCount++;
+        document.querySelector(
+          `#yahtzee-bonus-checks td:nth-Child(${yahtzeeCount - 1})`
+        ).style = "background-color: aqua;";
+        document
+          .querySelector(
+            `#yahtzee-bonus-checks td:nth-Child(${yahtzeeCount - 1})`
+          )
+          .appendChild(check);
+        document.querySelector(
+          "#yahtzee-bonus-total td"
+        ).innerText = yahtzeeBonus;
+        console.log(`
+      Yahtzee Count: ${yahtzeeCount}
+      Yahtzee Bonus: ${yahtzeeBonus}
+      ${
+        document.querySelector(`#yahtzee-bonus-checks td:nth-Child(1)`)
+          .innerText
+      }
+      `);
+      }
+
+      break;
+    case "use-chance":
+      let chancePoints = diceToScore.reduce(function(acc, curr) {
+        return acc + curr;
+      }, 0);
+      span.innerHTML = chancePoints;
+      document.getElementById("Chance").appendChild(span);
+      lowerTotal += chancePoints;
+      chancePoints = 0;
+  }
+  // Upper Sub Total
+  let upperSubTElement = document.getElementById("upper-sub-total");
+  upperSubTElement.innerText = upperSubT;
+  let upperTotalElement = document.getElementById("upper-total");
+  upperTotalElement.innerText = upperSubT;
+  let bonusElemnt = document.getElementById("bonus-points");
+  if (upperSubT >= 63) {
+    upperSubT += 35;
+    bonusElemnt.innerText = 35;
+    upperTotalElement.innerText = upperSubT;
+  }
+
+  // Lower Sub Total
+  let lowerUpperTotal = document.getElementById("lower-upper-total");
+  lowerUpperTotal.innerText = upperSubT;
+  let lowerTotalScore = document.getElementById("lower-total");
+  lowerTotalScore.innerText = lowerTotal;
+  //Grand total
+  let grandTotal = upperSubT + lowerTotal;
+  let grandTotalScore = document.getElementById("grand-total");
+  grandTotalScore.innerText = grandTotal;
+
+  // Yahtzee Bonus
+
+  //
+
+  console.log(`Points Added: ${points}`);
+  points = 0;
+  console.log(`Points Reset: ${points}`);
+  console.log(`Category Used: ${e.target.id}`);
+  console.log(`
+  UpperTotal: ${upperSubT}
+  LowerTotal: ${lowerTotal}
+  GrandTotal: ${grandTotal}
+  `);
+  var t3 = performance.now();
+
+  console.log("Call to score: " + (t3 - t2) + " milliseconds.");
 }
-// Calculate the score when .use is clicked
-// Button disappears
-// Cell is set equal to the number of points
