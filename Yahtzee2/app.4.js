@@ -56,7 +56,7 @@ function rollDice(e) {
   };
 
   // const diceArr = [diceRoll(), diceRoll(), diceRoll(), diceRoll(), diceRoll()];
-  const diceArr = [5, 5, 5, 5, 5];
+  const diceArr = [2, 6, 6, 2, 2];
   // const diceArr = [2, 3, 4, 4, 5];
   // const diceArr = [1, 2, 3, 5, 6];
   // const diceArr = [2, 3, 4, 4, 5];
@@ -79,11 +79,8 @@ function rollDice(e) {
   diceToScore = diceArr;
   console.log("Dice to Score " + diceToScore);
   // Performance for options
-  var t0 = performance.now();
-  giveOptions(diceToScore); //do something
-  var t1 = performance.now();
 
-  console.log("Call to giveOptions: " + (t1 - t0) + " milliseconds.");
+  giveOptions(diceToScore); //do something
 
   //DISABLE ROLL BUTTON
   // roll.disabled = true;
@@ -95,6 +92,8 @@ function rollDice(e) {
 
 //!!!!!!!!!!!!!!!TAKE ARRAY, GIVE SCORE OPTIONS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function giveOptions(arr) {
+  var t0 = performance.now();
+
   //Chance
   if (document.getElementById("Chance").childElementCount == 1) {
     document.getElementById("use-chance").style.display = "block";
@@ -297,12 +296,15 @@ function giveOptions(arr) {
 
     // `);
   }
+  var t1 = performance.now();
 
+  console.log("Call to giveOptions: " + (t1 - t0) + " milliseconds.");
   //chance
 }
 
 //!!!!!!! ADD SCORE TO BOARD !!!!!!!!!!!!!!!
 function score(e) {
+  var t2 = performance.now();
   roll.disabled = false;
   roll.className = "btn btn-danger";
   useBtn.forEach(function(btn) {
@@ -444,6 +446,9 @@ function score(e) {
         yahtzeeBonus += 100;
         lowerTotal += 100;
         yahtzeeCount++;
+        document.querySelector(
+          `#yahtzee-bonus-checks td:nth-Child(${yahtzeeCount - 1})`
+        ).style = "background-color: aqua;";
         document
           .querySelector(
             `#yahtzee-bonus-checks td:nth-Child(${yahtzeeCount - 1})`
@@ -507,4 +512,7 @@ function score(e) {
   LowerTotal: ${lowerTotal}
   GrandTotal: ${grandTotal}
   `);
+  var t3 = performance.now();
+
+  console.log("Call to score: " + (t3 - t2) + " milliseconds.");
 }

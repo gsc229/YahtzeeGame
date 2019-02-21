@@ -4,9 +4,11 @@
   background-color: black;
 }
 
-/* #yahtzee-bonus-checks td:nth-child(3) {
-  background-color: aqua;
-} */
+#yahtzee-bonus-checks td {
+  padding: 0;
+  height: 20px;
+  width: 20px;
+}
 .container {
   background-color: black;
 }
