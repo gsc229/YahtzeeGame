@@ -31,7 +31,7 @@ let yahtzeePoints = 0;
 let yahtzeeCount = 0;
 let yahtzeeBonus = 0;
 let diceToScore; //works
-
+console.log(`Yahtzee Count Above: ${yahtzeeCount}`);
 // Upper Totals
 let upperSubT = 0;
 const upperBonus = 35;
@@ -214,13 +214,15 @@ function giveOptions(arr) {
       yahtzeePoints = 50;
       // console.log("Here's the count: " + count);
       // console.log(count + " occurences of the number: " + arr[i]);
-      console.log("Yahtzee: " + yahtzeePoints);
+      // console.log("Yahtzee: " + yahtzeePoints);
       break;
     } else {
       document.getElementById("use-yahtzee").style.display = "none";
       yahtzeePoints = 0;
     }
   }
+
+  console.log(`Yahtzee Count Below: ${yahtzeeCount}`);
 
   // full house
 
@@ -308,7 +310,9 @@ function score(e) {
   });
 
   let span = document.createElement("span");
-
+  let check = document.createElement("i");
+  check.className = "fas fa-check";
+  check.setAttribute("style", "font-size: 10px;");
   // span.className = "score-span";
 
   switch (e.target.id) {
@@ -426,26 +430,37 @@ function score(e) {
       smStraightPoints = 0;
       lgStraignPoints = 0;
       break;
+
     case "use-yahtzee":
-      span.innerHTML = yahtzeePoints;
-      document.getElementById("Yahtzee").appendChild(span);
-      yahtzeeCount += 1;
+      if (yahtzeeCount == 0) {
+        span.innerHTML = yahtzeePoints;
+        document.getElementById("Yahtzee").appendChild(span);
+        yahtzeeCount++;
 
-      lowerTotal += yahtzeePoints;
-      yahtzeePoints = 0;
-
-      //Yahtzee Bonuse
-      //     if (yahtzeeCount >= 1 && yahtzeeCont <= 3) {
-      //       yahtzeeBonus += 100;
-      //       document
-      //         .querySelector(`#yahtzee-bonus-checks td:nth-Child(${yahtzeeCount})`)
-      //         .appendChild(check);
-      //       console.log(`
-      // Yahtzee Count: ${yahtzeeCount}
-      // Yahtzee Bonus: ${yahtzeeBonus}
-      // ${document.querySelector(`#yahtzee-bonus-checks td:nth-Child(1)`).innerText}
-      // `);
-      //     }
+        lowerTotal += yahtzeePoints;
+        yahtzeePoints = 0;
+        console.log(`Yahtzee Count: ${yahtzeeCount}`);
+      } else if (yahtzeeCount >= 1 && yahtzeeCount <= 3) {
+        yahtzeeBonus += 100;
+        lowerTotal += 100;
+        yahtzeeCount++;
+        document
+          .querySelector(
+            `#yahtzee-bonus-checks td:nth-Child(${yahtzeeCount - 1})`
+          )
+          .appendChild(check);
+        document.querySelector(
+          "#yahtzee-bonus-total td"
+        ).innerText = yahtzeeBonus;
+        console.log(`
+      Yahtzee Count: ${yahtzeeCount}
+      Yahtzee Bonus: ${yahtzeeBonus}
+      ${
+        document.querySelector(`#yahtzee-bonus-checks td:nth-Child(1)`)
+          .innerText
+      }
+      `);
+      }
 
       break;
     case "use-chance":
