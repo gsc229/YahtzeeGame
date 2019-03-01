@@ -31,7 +31,7 @@ let yahtzeePoints = 0;
 let yahtzeeCount = 0;
 let yahtzeeBonus = 0;
 let diceToScore; //works
-console.log(`Yahtzee Count Above: ${yahtzeeCount}`);
+
 // Upper Totals
 let upperSubT = 0;
 const upperBonus = 35;
@@ -55,11 +55,13 @@ function rollDice(e) {
     return Math.ceil(Math.random() * 6);
   };
 
-  // const diceArr = [diceRoll(), diceRoll(), diceRoll(), diceRoll(), diceRoll()];
-  const diceArr = [2, 6, 6, 2, 2];
-  // const diceArr = [2, 3, 4, 4, 5];
+  const diceArr = [diceRoll(), diceRoll(), diceRoll(), diceRoll(), diceRoll()];
   // const diceArr = [1, 2, 3, 5, 6];
   // const diceArr = [2, 3, 4, 4, 5];
+  // const diceArr = [6, 3, 4, 4, 5];
+  // const diceArr = [3, 2, 5, 4, 4];
+
+  // Change the dice graphics
   const spellRoll = ["one", "two", "three", "four", "five", "six"];
   const spellRollArr = [
     spellRoll[diceArr[0] - 1],
@@ -92,7 +94,7 @@ function rollDice(e) {
 
 //!!!!!!!!!!!!!!!TAKE ARRAY, GIVE SCORE OPTIONS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function giveOptions(arr) {
-  var t0 = performance.now();
+  // var t0 = performance.now();
 
   //Chance
   if (document.getElementById("Chance").childElementCount == 1) {
@@ -167,7 +169,7 @@ function giveOptions(arr) {
       if (count >= 3) {
         document.getElementById("use-three-of-kind").style.display = "block";
         ThOKface = arr[i];
-        // console.log("ThOK face: " + ThOKface);
+
         break;
       } else {
         document.getElementById("use-three-of-kind").style.display = "none";
@@ -188,9 +190,7 @@ function giveOptions(arr) {
       if (count >= 4) {
         document.getElementById("use-four-of-kind").style.display = "block";
         FOKface = arr[i];
-        // console.log("Here's the count: " + count);
-        // console.log(count + " occurences of the number: " + arr[i]);
-        // console.log("FOKface: " + FOKface);
+
         break;
       } else {
         document.getElementById("use-four-of-kind").style.display = "none";
@@ -211,17 +211,12 @@ function giveOptions(arr) {
     if (count === 5) {
       document.getElementById("use-yahtzee").style.display = "block";
       yahtzeePoints = 50;
-      // console.log("Here's the count: " + count);
-      // console.log(count + " occurences of the number: " + arr[i]);
-      // console.log("Yahtzee: " + yahtzeePoints);
       break;
     } else {
       document.getElementById("use-yahtzee").style.display = "none";
       yahtzeePoints = 0;
     }
   }
-
-  console.log(`Yahtzee Count Below: ${yahtzeeCount}`);
 
   // full house
 
@@ -236,7 +231,7 @@ function giveOptions(arr) {
       if (countForTwOK === 2 && ThOKface != 0) {
         TwOKface = arr[i];
         document.getElementById("use-full-house").style.display = "block";
-        console.log(`TwOkFace: ${TwOKface} ThOkFace: ${ThOKface}`);
+
         break;
       } else {
         document.getElementById("use-full-house").style.display = "none";
@@ -262,25 +257,30 @@ function giveOptions(arr) {
     } else {
       document.getElementById("use-lg-straight").style.display = "none";
     }
-    // console.log(`
-    //   ${sorted} LS Count: ${count}
-    //   lgStraightPoints: ${lgStraignPoints}
-    // `);
   }
   //Small Straight
   if (document.getElementById("Small-straight").childElementCount == 1) {
     const sorted2 = arr.sort();
+    //remove duplicated values
+    for (let i = 0; i < sorted2.length; i++) {
+      if (sorted2.lastIndexOf(sorted2[i]) != i) {
+        sorted2.splice(i, 1);
+      }
+    }
+
+    console.log(`Spliced arr ${sorted2}`);
+    //count the number of gaps equal to 1
     let count = 0;
 
     for (let i = 0; i < sorted2.length + 1; i++) {
-      if (sorted2[2] - sorted2[1] != 1 || sorted2[3] - sorted2[2] != 1) {
+      if (sorted2[2] - sorted2[1] !== 1 || sorted2[3] - sorted2[2] !== 1) {
         break;
       } else if (sorted2[i + 1] - sorted2[i] === 1) {
         count++;
       }
     }
 
-    if (count === 3) {
+    if (count >= 3) {
       document.getElementById("use-sm-straight").style.display = "block";
       smStraightPoints = 30;
     } else if (count === 3 && sSwitch) {
@@ -290,21 +290,12 @@ function giveOptions(arr) {
       document.getElementById("use-sm-straight").style.display = "none";
       document.getElementById("use-lg-straight").style.display = "none";
     }
-    // console.log(`
-    //   ${sorted2} SS Count: ${count}
-    //   smStraightPoints: ${smStraightPoints}
-
-    // `);
   }
-  var t1 = performance.now();
-
-  console.log("Call to giveOptions: " + (t1 - t0) + " milliseconds.");
-  //chance
 }
 
 //!!!!!!! ADD SCORE TO BOARD !!!!!!!!!!!!!!!
 function score(e) {
-  var t2 = performance.now();
+  // var t2 = performance.now();
   roll.disabled = false;
   roll.className = "btn btn-danger";
   useBtn.forEach(function(btn) {
@@ -412,11 +403,10 @@ function score(e) {
       break;
 
     case "use-full-house":
-      span.innerHTML = TwOKface * 2 + ThOKface * 3;
+      span.innerHTML = 25;
       document.getElementById("Full-house").appendChild(span);
-      lowerTotal += TwOKface * 2 + ThOKface * 3;
-      TwOKface = 0;
-      ThOKface = 0;
+      lowerTotal += 25;
+
       break;
     case "use-sm-straight":
       span.innerHTML = smStraightPoints;
@@ -503,16 +493,16 @@ function score(e) {
 
   //
 
-  console.log(`Points Added: ${points}`);
-  points = 0;
-  console.log(`Points Reset: ${points}`);
-  console.log(`Category Used: ${e.target.id}`);
-  console.log(`
-  UpperTotal: ${upperSubT}
-  LowerTotal: ${lowerTotal}
-  GrandTotal: ${grandTotal}
-  `);
-  var t3 = performance.now();
+  // console.log(`Points Added: ${points}`);
+  // points = 0;
+  // console.log(`Points Reset: ${points}`);
+  // console.log(`Category Used: ${e.target.id}`);
+  // console.log(`
+  // UpperTotal: ${upperSubT}
+  // LowerTotal: ${lowerTotal}
+  // GrandTotal: ${grandTotal}
+  // `);
+  // var t3 = performance.now();
 
-  console.log("Call to score: " + (t3 - t2) + " milliseconds.");
+  // console.log("Call to score: " + (t3 - t2) + " milliseconds.");
 }
