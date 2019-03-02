@@ -56,7 +56,7 @@ function rollDice(e) {
   };
 
   const diceArr = [diceRoll(), diceRoll(), diceRoll(), diceRoll(), diceRoll()];
-  // const diceArr = [1, 2, 3, 5, 6];
+  // const diceArr = [4, 2, 2, 2, 4];
   // const diceArr = [2, 3, 4, 4, 5];
   // const diceArr = [6, 3, 4, 4, 5];
   // const diceArr = [3, 2, 5, 4, 4];
